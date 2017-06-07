@@ -29,7 +29,7 @@ public class DataSource {
 
         pooledDataSource = new ComboPooledDataSource();
         pooledDataSource.setDriverClass("org.h2.Driver");
-        pooledDataSource.setJdbcUrl(prepareUrl());
+        pooledDataSource.setJdbcUrl("jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:/sql/create.sql'\\;RUNSCRIPT FROM 'classpath:/sql/populate.sql'");
         pooledDataSource.setUser("sa");
         pooledDataSource.setPassword("");
         pooledDataSource.setMinPoolSize(1);

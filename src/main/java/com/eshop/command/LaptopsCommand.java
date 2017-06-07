@@ -11,11 +11,24 @@ import java.util.List;
 
 public class LaptopsCommand implements ICommand {
 
+    private static final int TOTAL = 5;
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        JDBCProductDAO jdbcProductDAO = JDBCProductDAO.getInstance();
-        List<Product> laptops = jdbcProductDAO.findSpecifiedProduct("'Laptop'");
-        request.setAttribute("laptops", laptops);
+        String stringPageId = request.getParameter("page");
+
+        if (stringPageId != null) {
+            int pageId = Integer.parseInt(stringPageId);
+
+            if (pageId == 1) {
+            } else {
+                pageId = pageId - 1;
+                pageId = pageId * TOTAL + 1;
+            }
+            JDBCProductDAO jdbcProductDAO = JDBCProductDAO.getInstance();
+            List<Product> laptops = jdbcProductDAO.findSpecifiedProduct("'Laptop'", pageId, TOTAL);
+            request.setAttribute("laptops", laptops);
+        }
         return "/pages/laptops.jsp";
     }
 }

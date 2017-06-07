@@ -14,12 +14,14 @@ public class LogoutCommand implements ICommand {
     private static final Logger log = Logger.getLogger(LogoutCommand.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.invalidate();
 
+        HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
         log.info(user.getEmail() + " logged out");
+
+
+        session.invalidate();
 
         return "/pages/home.jsp";
     }

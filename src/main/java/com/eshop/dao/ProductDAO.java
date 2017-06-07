@@ -4,7 +4,7 @@ import com.eshop.dao.entities.Product;
 
 import java.util.List;
 
-public interface ProductDAO {
+public abstract class ProductDAO extends AbstractDAO<Product,String>{
 
     public abstract Product findEntity(String series);
 
@@ -16,7 +16,7 @@ public interface ProductDAO {
 
     public abstract boolean delete(String series);
 
-    public abstract List<Product> findSpecifiedProduct(String productType);
+    public abstract List<Product> findSpecifiedProduct(String productType, int start, int count);
 
     public abstract void sell(Product product, int boughtItemsAmount);
 }

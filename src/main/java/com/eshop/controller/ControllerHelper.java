@@ -6,6 +6,7 @@ import com.eshop.command.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
+//acid
 public class ControllerHelper {
 
     private static ControllerHelper instance = null;

@@ -1,6 +1,5 @@
 package com.eshop.dao.jdbc;
 
-import com.eshop.dao.AbstractDAO;
 import com.eshop.dao.ProductDAO;
 import com.eshop.dao.entities.Product;
 import org.apache.log4j.Logger;
@@ -9,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JDBCProductDAO extends AbstractDAO<Product, String> implements ProductDAO {
+public class JDBCProductDAO extends ProductDAO {
 
     private static final Logger log = Logger.getLogger(JDBCProductDAO.class);
 
@@ -155,9 +154,9 @@ public class JDBCProductDAO extends AbstractDAO<Product, String> implements Prod
     }
 
     @Override
-    public List<Product> findSpecifiedProduct(String productType) {
+    public List<Product> findSpecifiedProduct(String productType, int start, int total) {
         List<Product> products = new ArrayList<>();
-        final String SQL = "SELECT * FROM Product WHERE product_type = " + productType;
+        final String SQL = "SELECT * FROM Product WHERE product_type = " + productType + " LIMIT " + (start-1) + "," + total;
 
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement()) {

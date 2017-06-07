@@ -29,9 +29,9 @@
 
 
 <p class="assortment">
-    <a class="phones" href="/?command=phones"><button type="button">PHONES</button></a>
+    <a class="phones" href="/?command=phones&page=1"><button type="button">PHONES</button></a>
 
-    <a class="laptops" href="/?command=laptops"><button type="button">LAPTOPS</button></a>
+    <a class="laptops" href="/?command=laptops&page=1"><button type="button">LAPTOPS</button></a>
 </p>
 </body>
 </html>

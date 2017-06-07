@@ -2,7 +2,7 @@ create table Users (
   id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(50) NOT NULL UNIQUE,
   password VARCHAR(30) NOT NULL,
-  cash INT,
+  cash DECIMAL,
   firstName VARCHAR(255) NOT NULL,
   lastName VARCHAR(255) NOT NULL,
   phoneNumber VARCHAR(30),
@@ -35,6 +35,5 @@ CREATE TABLE Order_Entry (
   quantity INT NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (orderId) REFERENCES Orders(id),
-  FOREIGN KEY (productId) REFERENCES Product(id)
+  FOREIGN KEY (productId) REFERENCES Product(id) ON DELETE CASCADE
 );
-
