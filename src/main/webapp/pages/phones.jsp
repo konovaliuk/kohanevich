@@ -53,7 +53,12 @@
     </c:otherwise>
 </c:choose>
 <p align="center">
-<a href="/"><button>Home</button></a>
+    <a href="/?command=phones&page=1">1</a>
+    <a href="/?command=phones&page=2">2</a>
+    <a href="/?command=phones&page=3">3</a>
+    <a href="/?command=phones&page=4">4</a>
+    <a href="/?command=phones&page=5">5</a>
+    <a href="/"><button>Home</button></a>
 </p>
 </body>
 </html>
