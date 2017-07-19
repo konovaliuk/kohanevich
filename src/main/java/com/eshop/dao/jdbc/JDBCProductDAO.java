@@ -12,7 +12,7 @@ public class JDBCProductDAO extends ProductDAO {
 
     private static final Logger log = Logger.getLogger(JDBCProductDAO.class);
 
-    private static final String ID = "id";
+    private static final String ID = "productId";
     private static final String COMPANY = "company";
     private static final String MODEL = "model";
     private static final String SERIES = "series";
@@ -63,7 +63,7 @@ public class JDBCProductDAO extends ProductDAO {
 
     @Override
     public boolean addNew(Product product) {
-        final String SQL = "INSERT INTO Product (id, company, model, series, price, "
+        final String SQL = "INSERT INTO Product (productId, company, model, series, price, "
                 + " stock, product_type) "
                 + "VALUES (NULL, ?, ?, ?, ?, ?, ?)";
 
@@ -87,36 +87,12 @@ public class JDBCProductDAO extends ProductDAO {
         return true;
     }
 
-    @Override
-    public List<Product> findAll() {
-
-        List<Product> products = new ArrayList<>();
-        final String SQL = "SELECT * FROM Product";
-
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(SQL);
-            while (resultSet.next()) {
-                products.add(new Product(resultSet.getInt(ID),
-                        resultSet.getString(COMPANY),
-                        resultSet.getString(MODEL),
-                        resultSet.getString(SERIES),
-                        resultSet.getDouble(PRICE),
-                        resultSet.getInt(STOCK),
-                        resultSet.getString(PRODUCT_TYPE)));
-            }
-
-        } catch (SQLException e) {
-            log.info(e);
-        }
-        return products;
-    }
 
     @Override
     public Product update(Product product) {
         final String SQL = "UPDATE Product  SET "
                 + "company=?, model=?, series=?, price=?, stock=?, product_type=? WHERE"
-                + " id=? ";
+                + " productId=? ";
 
 
         try (Connection connection = getConnection();
@@ -178,8 +154,10 @@ public class JDBCProductDAO extends ProductDAO {
     }
 
     @Override
-    public void sell(Product product, int boughtItemsAmount) {
-        product.setStock(product.getStock() - boughtItemsAmount);
-        update(product);
+    public void sell(Product product, int boughtItemsAmount)  {
+        if (product.getStock() - boughtItemsAmount >= 0){
+            product.setStock(product.getStock() - boughtItemsAmount);
+            update(product);
+        }
     }
 }

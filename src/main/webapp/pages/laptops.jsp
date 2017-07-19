@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="myTag" uri="http://www.kohanevich.com/userframe"%>
 <html>
 <head>
-    <title>Phones</title>
+    <title>Laptops</title>
     <style>
         .list{
             float: left;
@@ -16,13 +18,17 @@
             <c:forEach var="product" items="${laptops}">
                 <c:out value="${product.model}"/>
                 <c:out value="${product.price}"/> <br/>
+                <c:if test="${product.stock > 0}">
                 <form method="post" action="/?command=bucket">
                     <input type="hidden" name="addToBucket" value="${product.series}">
                     <input type="submit" value="buy">
+                    <input name="quantity" min="1" max ="${product.stock}" value="1" type="number"/>
                 </form>
+                    <br/>
+            </c:if>
             </c:forEach>
         </div>
-        <jsp:include page="user_frame.jsp"/>
+        <myTag:UserFrameTag/>
     </c:when>
     <c:when test="${not empty user && user.admin}">
         <div class="list">

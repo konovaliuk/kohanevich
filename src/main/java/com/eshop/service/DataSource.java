@@ -16,7 +16,9 @@ public class DataSource {
 
     private static volatile DataSource instance;
 
-    private static final String URL = "jdbc:h2:mem:test;INIT=RUNSCRIPT FROM '%s'\\;RUNSCRIPT FROM '%s'";
+//    private static final String URL = "jdbc:h2:mem:test;INIT=RUNSCRIPT FROM '%s'\\;RUNSCRIPT FROM '%s'";
+    private static final String URL = "jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:/sql/create.sql'\\;RUNSCRIPT FROM 'classpath:/sql/populate.sql'";
+
     private ComboPooledDataSource pooledDataSource;
 
     private DataSource() throws Exception {
@@ -29,7 +31,7 @@ public class DataSource {
 
         pooledDataSource = new ComboPooledDataSource();
         pooledDataSource.setDriverClass("org.h2.Driver");
-        pooledDataSource.setJdbcUrl("jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:/sql/create.sql'\\;RUNSCRIPT FROM 'classpath:/sql/populate.sql'");
+        pooledDataSource.setJdbcUrl(URL);
         pooledDataSource.setUser("sa");
         pooledDataSource.setPassword("");
         pooledDataSource.setMinPoolSize(1);
@@ -38,13 +40,13 @@ public class DataSource {
         pooledDataSource.setMaxStatements(180);
     }
 
-    private String prepareUrl() throws URISyntaxException {
-            return format(URL, prepareScript("sql/create.sql"), prepareScript("sql/populate.sql"));
-    }
-
-    private String prepareScript(String fileName) throws URISyntaxException {
-        return Paths.get(getClass().getClassLoader().getResource(fileName).toURI()).toAbsolutePath().toString();
-    }
+//    private String prepareUrl() throws URISyntaxException {
+//            return format(URL, prepareScript("sql/create.sql"), prepareScript("sql/populate.sql"));
+//    }
+//
+//    private String prepareScript(String fileName) throws URISyntaxException {
+//        return Paths.get(getClass().getClassLoader().getResource(fileName).toURI()).toAbsolutePath().toString();
+//    }
 
     public static DataSource getInstance() throws Exception {
         if (instance == null) {

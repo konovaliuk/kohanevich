@@ -2,6 +2,8 @@ package com.eshop.command;
 
 import com.eshop.dao.entities.Product;
 import com.eshop.dao.jdbc.JDBCProductDAO;
+import com.eshop.dao.jdbc.JDBCUserDAO;
+import com.eshop.service.DAOFactory;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,8 @@ import java.io.IOException;
 public class AddNewProductCommand implements ICommand {
 
     private static final Logger log = Logger.getLogger(AddNewProductCommand.class);
+    private DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.H2);
+    private JDBCProductDAO productDAO = daoFactory.getProductDAO();
 
     private static final String COMPANY = "company";
     private static final String MODEL = "model";
@@ -30,8 +34,8 @@ public class AddNewProductCommand implements ICommand {
         String productType = request.getParameter(PRODUCT_TYPE);
 
         Product product = new Product(null, company, model, series, price, stock, productType);
-        JDBCProductDAO jdbcProductDAO = JDBCProductDAO.getInstance();
-        jdbcProductDAO.addNew(product);
+        productDAO.addNew(product);
+        product.setId(productDAO.findEntity(series).getId());
 
         log.info(product.getProductType() + " " + product.getModel() + " added");
 

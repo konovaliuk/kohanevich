@@ -2,6 +2,7 @@ package com.eshop.command;
 
 import com.eshop.dao.entities.User;
 import com.eshop.dao.jdbc.JDBCUserDAO;
+import com.eshop.service.DAOFactory;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,9 @@ import java.io.IOException;
 public class AddMoneyCommand implements ICommand {
 
     private static final Logger log = Logger.getLogger(AddMoneyCommand.class);
+    private DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.H2);
+    private JDBCUserDAO userDAO = daoFactory.getUserDAO();
+
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,7 +28,7 @@ public class AddMoneyCommand implements ICommand {
         Integer cashAmount = Integer.valueOf(request.getParameter("amount"));
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        user = JDBCUserDAO.getInstance().addCash(user.getEmail(), cashAmount);
+        user = userDAO.addCash(user.getEmail(), cashAmount);
         session.setAttribute("user", user);
         log.info(user.getEmail() + " added " + cashAmount + " money on account");
         return "/pages/home.jsp";

@@ -23,7 +23,7 @@ public class JDBCOrderDAOTest {
     }
 
     @Test
-    public void testCreateItem() throws Exception {
+    public void createOrder() {
 
         Product product = new Product(1, "Apple", "7plus", "X120",50., 10, "Mobile");
         Product product1 = new Product(2, "Google", "pixel", "x125",50., 10, "Mobile");
@@ -47,9 +47,6 @@ public class JDBCOrderDAOTest {
         order.setUser(User.newBuilder().setId(1).build());
         order.setEntries(entries);
 
-
-        boolean result = orderDAO.addNew(order);
-        assertTrue(result);
+        assertTrue(orderDAO.addNew(order));
     }
-
 }

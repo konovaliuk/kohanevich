@@ -8,7 +8,7 @@ create table Users (
   phoneNumber VARCHAR(30),
   active BOOLEAN NOT NULL,
   admin BOOLEAN NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 );
 create table Product (
   id INT NOT NULL AUTO_INCREMENT,

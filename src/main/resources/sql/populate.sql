@@ -1,4 +1,4 @@
-INSERT INTO Users (id, password, firstName, lastName, cash, email, phoneNumber, active, admin)
+INSERT INTO Users (userId, password, firstName, lastName, cash, email, phoneNumber, active, admin)
 VALUES (1, 'admin', 'Yelisey', 'Kohanevich', 0, 'irunnie@gmail.com', '+380992337446', TRUE, TRUE ),
   (2, 'pwd', 'first', 'last', 0, 'email@email.com', '12345', TRUE, FALSE );
 INSERT INTO Product(company, model, series, price, stock, product_type)
@@ -54,11 +54,11 @@ VALUES ('Motorola', 'MOTO G4', 'XT1622', 6495, 10, 'Mobile'),
   ('LG', 'laptop20', '2017', 5199, 10, 'Laptop'),
   ('LG', 'laptop21', '2017', 5199, 10, 'Laptop'),
   ('LG', 'laptop22', '2017', 5199, 10, 'Laptop');
-INSERT INTO Orders(id, userId, totalPrice)
+INSERT INTO Orders(orderId, userId, totalPrice)
 VALUES (1, 1, 100),
   (2, 1, 215),
   (3, 2, 300);
-INSERT INTO Order_Entry(id, orderId, productId, price, quantity)
+INSERT INTO Order_Entry(orderEntryId, orderId, productId, price, quantity)
 VALUES (1, 1, 1, 50, 2),
   (2, 2, 1, 100, 2),
   (3, 2, 1, 15, 1),

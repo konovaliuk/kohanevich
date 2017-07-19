@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="myTag" uri="http://www.kohanevich.com/userframe"%>
 <html>
 <head>
     <title>Home</title>
@@ -17,7 +18,7 @@
 
 <c:choose>
     <c:when test="${not empty user}">
-        <jsp:include page="user_frame.jsp" />
+        <myTag:UserFrameTag/>
     </c:when>
     <c:otherwise>
         <p class="logreg" align="right">

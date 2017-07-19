@@ -1,7 +1,7 @@
 package com.eshop.dao.entities;
 
 public class Product {
-    private final Integer id;
+    private Integer id;
     private final String company;
     private final String model;
     private final String series;
@@ -50,6 +50,10 @@ public class Product {
 
     public String getProductType() {
         return productType;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     @Override

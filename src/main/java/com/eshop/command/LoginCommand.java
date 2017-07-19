@@ -3,6 +3,7 @@ package com.eshop.command;
 
 import com.eshop.dao.entities.User;
 import com.eshop.dao.jdbc.JDBCUserDAO;
+import com.eshop.service.DAOFactory;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpSession;
 
 
 public class LoginCommand implements ICommand {
+
+    private DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.H2);
+    private JDBCUserDAO userDAO = daoFactory.getUserDAO();
 
     private static final Logger log = Logger.getLogger(LoginCommand.class);
 
@@ -23,7 +27,7 @@ public class LoginCommand implements ICommand {
         String login = request.getParameter(LOGIN);
         String password = request.getParameter(PASSWORD);
 
-        User user = JDBCUserDAO.getInstance().findEntity(login);
+        User user = userDAO.findEntity(login);
 
 
         if (user != null && user.getPassword().equals(password) && user.isActive()){
@@ -34,7 +38,7 @@ public class LoginCommand implements ICommand {
             log.info(user.getEmail() + " logged in");
         }
         else {
-            page = "/pages/404.jsp";
+            page = "/pages/error.jsp";
         }
         return page;
     }

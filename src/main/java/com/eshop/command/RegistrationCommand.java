@@ -2,6 +2,7 @@ package com.eshop.command;
 
 import com.eshop.dao.entities.User;
 import com.eshop.dao.jdbc.JDBCUserDAO;
+import com.eshop.service.DAOFactory;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ public class RegistrationCommand implements ICommand {
 
     private static final Logger log = Logger.getLogger(RegistrationCommand.class);
 
+    private DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.H2);
+    private JDBCUserDAO userDAO = daoFactory.getUserDAO();
 
     private static final String PASSWORD = "password";
     private static final String FIRST_NAME = "firstName";
@@ -44,15 +47,14 @@ public class RegistrationCommand implements ICommand {
                 .build();
 
 
-        JDBCUserDAO jdbcUserDAO = JDBCUserDAO.getInstance();
 
-        if (jdbcUserDAO.addNew(user)) {
+        if (userDAO.addNew(user)) {
             page = "/pages/home.jsp";
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             log.info(user.getEmail() + " registered");
         } else {
-            page = "/pages/404.jsp";
+            page = "/pages/error.jsp";
         }
 
         return page;

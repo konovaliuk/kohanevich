@@ -1,20 +1,18 @@
 package com.eshop.dao.jdbc;
 
-import com.eshop.dao.AbstractDAO;
+import com.eshop.dao.OrderDAO;
 import com.eshop.dao.entities.Order;
 import com.eshop.dao.entities.OrderEntry;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class JDBCOrderDAO extends AbstractDAO<Order, String> {
+public class JDBCOrderDAO extends OrderDAO{
 
-    private static final String ID = "id";
-    private static final String TOTAL_PRICE = "totalPrice";
+    private static final Logger log = Logger.getLogger(JDBCOrderDAO.class);
 
     private static volatile JDBCOrderDAO instance;
 
@@ -29,54 +27,6 @@ public class JDBCOrderDAO extends AbstractDAO<Order, String> {
             }
         }
         return instance;
-    }
-
-    public List<Order> findAllByUser(String email) {
-        final String SQL = "SELECT Orders.totalPrice, Orders.id  FROM Orders " +
-                "JOIN Users ON orders.userId = Users.id " +
-                "WHERE users.email = ?";
-
-        List<Order> orders = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement oStatement = connection.prepareStatement(SQL)) {
-            oStatement.setString(1, email);
-            ResultSet rs = oStatement.executeQuery();
-
-            while (rs.next()) {
-                Order order = new Order();
-                order.setId(rs.getInt(ID));
-                order.setTotalPrice(rs.getDouble(TOTAL_PRICE));
-                //order.setEntries();
-                orders.add(order);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return orders;
-    }
-
-    public List<OrderEntry> findEntriesByOrderId(int orderId) {
-        final String SQL = "SELECT order_entry.price as e_price FROM Order_entry " +
-                "JOIN Product ON Product.id = Order_entry.productId " +
-                "WHERE orderId  = ? ";
-
-        List<OrderEntry> entries = new ArrayList<>();
-        try (Connection connection = getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL)) {
-            statement.setInt(1, orderId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                OrderEntry entry = new OrderEntry();
-                entry.setPrice(rs.getDouble("e_price"));
-                entries.add(entry);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return entries;
     }
 
     @Override
@@ -100,13 +50,18 @@ public class JDBCOrderDAO extends AbstractDAO<Order, String> {
     }
 
     @Override
-    public Order findEntity(String id) {
-        return null;
-    }
+    public boolean delete(Integer id) {
+        final String SQL = "DELETE FROM Orders WHERE orderId=?";
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            log.info(e);
+            return false;
+        }
 
-    @Override
-    public boolean delete(String id) {
-        return false;
+        return true;
     }
 
     @Override

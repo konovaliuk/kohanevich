@@ -27,9 +27,11 @@ public class DispatcherServlet extends HttpServlet {
             page = command.execute(request, response);
         } catch (ServletException | IOException e) {
             e.printStackTrace();
+            page = "/pages/error.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();
+            page = "/pages/error.jsp";
         }
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);

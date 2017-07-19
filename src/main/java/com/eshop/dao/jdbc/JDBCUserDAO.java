@@ -1,6 +1,5 @@
 package com.eshop.dao.jdbc;
 
-import com.eshop.command.RegistrationCommand;
 import com.eshop.dao.UserDAO;
 import com.eshop.dao.entities.User;
 import org.apache.log4j.Logger;
@@ -11,9 +10,9 @@ import java.util.List;
 
 public class JDBCUserDAO extends UserDAO {
 
-    private static final Logger log = Logger.getLogger(RegistrationCommand.class);
+    private static final Logger log = Logger.getLogger(JDBCUserDAO.class);
 
-    private static final String ID = "id";
+    private static final String ID = "userId";
     private static final String FIRST_NAME = "firstName";
     private static final String LAST_NAME = "lastName";
     private static final String EMAIL = "email";
@@ -187,5 +186,4 @@ public class JDBCUserDAO extends UserDAO {
         user = update(user);
         return user;
     }
-
 }

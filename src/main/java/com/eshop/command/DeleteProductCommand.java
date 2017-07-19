@@ -2,6 +2,7 @@ package com.eshop.command;
 
 import com.eshop.dao.entities.Product;
 import com.eshop.dao.jdbc.JDBCProductDAO;
+import com.eshop.service.DAOFactory;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -13,14 +14,16 @@ public class DeleteProductCommand implements ICommand {
 
     private static final Logger log = Logger.getLogger(DeleteProductCommand.class);
 
+    private DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.H2);
+    private JDBCProductDAO productDAO = daoFactory.getProductDAO();
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        JDBCProductDAO jdbcProductDAO = JDBCProductDAO.getInstance();
         String productSeries = request.getParameter("delete");
-        Product product = jdbcProductDAO.findEntity(productSeries);
-        jdbcProductDAO.delete(productSeries);
-        jdbcProductDAO.update(product);
+        Product product = productDAO.findEntity(productSeries);
+        productDAO.delete(productSeries);
+        productDAO.update(product);
 
         log.info(product.getModel() + " " + product.getProductType() + " deleted");
         return "/pages/home.jsp";
